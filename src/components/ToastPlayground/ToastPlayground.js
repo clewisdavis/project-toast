@@ -7,6 +7,16 @@ import styles from './ToastPlayground.module.css';
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+
+  // state for 'textarea'
+  const [message, setMessage] = React.useState('');
+  console.log(message);
+
+  // state for 'radio'
+  const [variants, setVariants] = React.useState('notice');
+  console.log(variants)
+
+
   return (
     <div className={styles.wrapper}>
       <header>
@@ -24,7 +34,14 @@ function ToastPlayground() {
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea 
+              id="message" 
+              className={styles.messageInput} 
+              value={message}
+              onChange={event => {
+                setMessage(event.target.value);
+              }}
+            />
           </div>
         </div>
 
@@ -33,7 +50,7 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <label htmlFor="variant-notice">
+            {/* <label htmlFor="variant-notice">
               <input
                 id="variant-notice"
                 type="radio"
@@ -41,11 +58,31 @@ function ToastPlayground() {
                 value="notice"
               />
               notice
-            </label>
+            </label> */}
 
-            {/* TODO Other Variant radio buttons here */}
+            {VARIANT_OPTIONS.map(option => (
+              <div key={option}>
+              <label htmlFor={option}>
+              <input
+                id={option}
+                type="radio"
+                name="variant"
+                value={option}
+                checked={option === variants}
+                onChange={event => {
+                  setVariants(event.target.value);
+                }}
+              />
+              {option}
+            </label>
+            </div>
+            ))}
+ 
           </div>
         </div>
+
+
+        
 
         <div className={styles.row}>
           <div className={styles.label} />
