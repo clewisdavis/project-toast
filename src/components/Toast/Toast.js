@@ -18,14 +18,18 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast() {
+function Toast({content, variant}) {
+
+  // Concatenate multiple classes into one
+  const variantClasses = `${styles.toast} ${styles[variant]}`;
+
   return (
-    <div className={`${styles.toast} ${styles.notice}`}>
+    <div className={variantClasses}>
       <div className={styles.iconContainer}>
         <Info size={24} />
       </div>
       <p className={styles.content}>
-        16 photos have been uploaded
+        {content}
       </p>
       <button className={styles.closeButton}>
         <X size={24} />
