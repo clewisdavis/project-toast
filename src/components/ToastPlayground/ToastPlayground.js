@@ -18,6 +18,15 @@ function ToastPlayground() {
   const [variants, setVariants] = React.useState('notice');
   console.log(variants)
 
+  // pop the toast
+  const [isRendered, setIsRendered] = React.useState(false);
+  console.log(isRendered);
+
+  // create the handle dismiss function
+  function handleDismiss() {
+    setIsRendered(false);
+  }
+
 
   return (
     <div className={styles.wrapper}>
@@ -27,10 +36,13 @@ function ToastPlayground() {
       </header>
 
       {/* Toast Here, Prop APIs, content, variant,  */}
-      <Toast
+      {/* Conditionally render based on the state of isRendered */}
+      {isRendered && <Toast
         content={message}
         variant={variants}
-      />
+        handleDismiss={handleDismiss}
+      />}
+      
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -89,15 +101,16 @@ function ToastPlayground() {
           </div>
         </div>
 
-
-        
-
         <div className={styles.row}>
           <div className={styles.label} />
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <Button>Pop Toast!</Button>
+            <Button
+              onClick={event => {
+                setIsRendered(true);
+              }}
+            >Pop Toast!</Button>
           </div>
         </div>
       </div>
