@@ -6,25 +6,38 @@ import styles from './ToastPlayground.module.css';
 
 import Toast from '../Toast';
 
+import ToastShelf from '../ToastShelf';
+
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
 
   // state for 'textarea'
   const [message, setMessage] = React.useState('');
-  console.log(message);
+  // console.log(message);
 
   // state for 'radio'
   const [variants, setVariants] = React.useState('notice');
-  console.log(variants)
+  // console.log(variants)
 
-  // pop the toast
-  const [isRendered, setIsRendered] = React.useState(false);
-  console.log(isRendered);
+  // Update to be an array to hold all the variants, objects
+  const [toasts, setToasts] = React.useState([
+    {
+      id: crypto.randomUUID(),
+      message: 'Oh No',
+      variant: 'error',
+    },
+    {
+      id: crypto.randomUUID(),
+      message: 'Logged In',
+      variant: 'success',
+    }
+  ]);
+  // console.log(toasts);
 
   // create the handle dismiss function
   function handleDismiss() {
-    setIsRendered(false);
+    // setIsRendered(false);
   }
 
 
@@ -37,11 +50,16 @@ function ToastPlayground() {
 
       {/* Toast Here, Prop APIs, content, variant,  */}
       {/* Conditionally render based on the state of isRendered */}
-      {isRendered && <Toast
+      {/* {isRendered && <Toast
         content={message}
         variant={variants}
         handleDismiss={handleDismiss}
-      />}
+      />} */}
+
+      {/* Add the new ToastShelf */}
+      <ToastShelf 
+        toasts={toasts}
+      />
       
 
       <div className={styles.controlsWrapper}>
@@ -108,7 +126,7 @@ function ToastPlayground() {
           >
             <Button
               onClick={event => {
-                setIsRendered(true);
+                // setIsRendered(true);
               }}
             >Pop Toast!</Button>
           </div>
