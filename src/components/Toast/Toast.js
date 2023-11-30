@@ -18,7 +18,7 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({children, variant, handleDismiss}) {
+function Toast({children, variant, handleDismiss, id}) {
 
   // Concatenate multiple classes into one
   const variantClasses = `${styles.toast} ${styles[variant]}`;
@@ -36,7 +36,7 @@ function Toast({children, variant, handleDismiss}) {
       </p>
       <button 
         className={styles.closeButton}
-        onClick={handleDismiss}
+        onClick={() => handleDismiss(id)}
       >
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>

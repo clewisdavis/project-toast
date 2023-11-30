@@ -17,10 +17,10 @@ function ToastPlayground() {
   // console.log(message);
 
   // state for 'radio'
-  const [variants, setVariants] = React.useState('notice');
+  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
   // console.log(variants)
 
-  // Update to be an array to hold all the variants, objects
+  // Update to be an array to hold all the variants, objects, don't forget to generate the key
   const [toasts, setToasts] = React.useState([
     {
       id: crypto.randomUUID(),
@@ -35,9 +35,40 @@ function ToastPlayground() {
   ]);
   // console.log(toasts);
 
+  function handleCreateToast(event) {
+    // prevent the default for behavior
+    event.preventDefault();
+
+    // create a new array, do not mutate the state
+    const nextToast = [
+      // copy the current toast
+      ...toasts,
+      {
+        id: crypto.randomUUID(),
+        message,
+        variant,
+      }
+    ];
+    // call the state setter and pass along the new array
+    setToasts(nextToast);
+
+    // clear out the state in the form
+    setMessage('');
+    setVariant(VARIANT_OPTIONS[0]);
+  }
+
   // create the handle dismiss function
-  function handleDismiss() {
-    // setIsRendered(false);
+  function handleDismiss(id) {
+    // not allowed to mutate in React
+    // create a new array, includes all the items except the one we want to remove
+    const nextToast = toasts.filter(toast => {
+      // go through all the toast, and find the one trying to dismiss
+      // 🤔 keep the toast, if the id is NOT equal to the one we are dismissing
+      return toast.id !== id
+    })
+
+    // call state setter function passing in the new array
+    setToasts(nextToast);
   }
 
 
@@ -57,12 +88,13 @@ function ToastPlayground() {
       />} */}
 
       {/* Add the new ToastShelf */}
-      <ToastShelf 
+      <ToastShelf
+        handleDismiss={handleDismiss}
         toasts={toasts}
       />
       
 
-      <div className={styles.controlsWrapper}>
+      <form onSubmit={handleCreateToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -106,9 +138,9 @@ function ToastPlayground() {
                 type="radio"
                 name="variant"
                 value={option}
-                checked={option === variants}
+                checked={option === variant}
                 onChange={event => {
-                  setVariants(event.target.value);
+                  setVariant(event.target.value);
                 }}
               />
               {option}
@@ -124,14 +156,10 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            <Button
-              onClick={event => {
-                // setIsRendered(true);
-              }}
-            >Pop Toast!</Button>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
