@@ -7,7 +7,7 @@ import styles from './ToastShelf.module.css';
 function ToastShelf({ handleDismiss }) {
 
   // get our 'toast' state from the provider, useContext hook
-  const { toasts, setToasts } = React.useContext(ToastContext);
+  const { toasts } = React.useContext(ToastContext);
 
   return (
     <ol className={styles.wrapper}>

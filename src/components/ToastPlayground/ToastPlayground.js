@@ -8,9 +8,14 @@ import Toast from '../Toast';
 
 import ToastShelf from '../ToastShelf';
 
+import { ToastContext } from '../ToastProvider/ToastProvider';
+
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
+
+  // pull in from the provider
+  const { createToast } = React.useContext(ToastContext);
 
   // state for 'textarea'
   const [message, setMessage] = React.useState('');
@@ -20,37 +25,12 @@ function ToastPlayground() {
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
   // console.log(variants)
 
-  // Update to be an array to hold all the variants, objects, don't forget to generate the key
-  const [toasts, setToasts] = React.useState([
-    {
-      id: crypto.randomUUID(),
-      message: 'Oh No',
-      variant: 'error',
-    },
-    {
-      id: crypto.randomUUID(),
-      message: 'Logged In',
-      variant: 'success',
-    }
-  ]);
-  // console.log(toasts);
-
   function handleCreateToast(event) {
     // prevent the default for behavior
     event.preventDefault();
 
-    // create a new array, do not mutate the state
-    const nextToast = [
-      // copy the current toast
-      ...toasts,
-      {
-        id: crypto.randomUUID(),
-        message,
-        variant,
-      }
-    ];
-    // call the state setter and pass along the new array
-    setToasts(nextToast);
+    // new function in provider
+    createToast(message, variant);
 
     // clear out the state in the form
     setMessage('');
@@ -61,14 +41,14 @@ function ToastPlayground() {
   function handleDismiss(id) {
     // not allowed to mutate in React
     // create a new array, includes all the items except the one we want to remove
-    const nextToast = toasts.filter(toast => {
-      // go through all the toast, and find the one trying to dismiss
-      // 🤔 keep the toast, if the id is NOT equal to the one we are dismissing
-      return toast.id !== id
-    })
+    // const nextToast = toasts.filter(toast => {
+    //   // go through all the toast, and find the one trying to dismiss
+    //   // 🤔 keep the toast, if the id is NOT equal to the one we are dismissing
+    //   return toast.id !== id
+    // })
 
-    // call state setter function passing in the new array
-    setToasts(nextToast);
+    // // call state setter function passing in the new array
+    // setToasts(nextToast);
   }
 
 
@@ -79,18 +59,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {/* Toast Here, Prop APIs, content, variant,  */}
-      {/* Conditionally render based on the state of isRendered */}
-      {/* {isRendered && <Toast
-        content={message}
-        variant={variants}
-        handleDismiss={handleDismiss}
-      />} */}
-
       {/* Add the new ToastShelf */}
       <ToastShelf
         handleDismiss={handleDismiss}
-        toasts={toasts}
       />
       
 
@@ -120,15 +91,6 @@ function ToastPlayground() {
           <div
             className={`${styles.inputWrapper} ${styles.radioWrapper}`}
           >
-            {/* <label htmlFor="variant-notice">
-              <input
-                id="variant-notice"
-                type="radio"
-                name="variant"
-                value="notice"
-              />
-              notice
-            </label> */}
 
             {VARIANT_OPTIONS.map(option => (
               <div key={option}>
