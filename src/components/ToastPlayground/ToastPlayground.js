@@ -37,20 +37,6 @@ function ToastPlayground() {
     setVariant(VARIANT_OPTIONS[0]);
   }
 
-  // create the handle dismiss function
-  function handleDismiss(id) {
-    // not allowed to mutate in React
-    // create a new array, includes all the items except the one we want to remove
-    // const nextToast = toasts.filter(toast => {
-    //   // go through all the toast, and find the one trying to dismiss
-    //   // 🤔 keep the toast, if the id is NOT equal to the one we are dismissing
-    //   return toast.id !== id
-    // })
-
-    // // call state setter function passing in the new array
-    // setToasts(nextToast);
-  }
-
 
   return (
     <div className={styles.wrapper}>
@@ -60,9 +46,7 @@ function ToastPlayground() {
       </header>
 
       {/* Add the new ToastShelf */}
-      <ToastShelf
-        handleDismiss={handleDismiss}
-      />
+      <ToastShelf/>
       
 
       <form onSubmit={handleCreateToast} className={styles.controlsWrapper}>

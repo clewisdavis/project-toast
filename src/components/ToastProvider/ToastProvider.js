@@ -35,12 +35,26 @@ function ToastProvider({ children }) {
     setToasts(nextToast);
   }
 
+  // Create the dismiss
+  function dismissToast(id) {
+    // create a new array, includes all the items except the one we want to remove
+    const nextToast = toasts.filter(toast => {
+    //   // go through all the toast, and find the one trying to dismiss
+    //   // 🤔 keep the toast, if the id is NOT equal to the one we are dismissing
+      return toast.id !== id
+    })
+
+    // // call state setter function passing in the new array
+    setToasts(nextToast);
+  }
+
   return (
     // Set up the provider and broadcast our state
     <ToastContext.Provider 
       value={{ 
           toasts,
-          createToast 
+          createToast,
+          dismissToast
       }}
     >
       { children }

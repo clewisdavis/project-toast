@@ -4,7 +4,7 @@ import { ToastContext } from '../ToastProvider/ToastProvider';
 import Toast from '../Toast';
 import styles from './ToastShelf.module.css';
 
-function ToastShelf({ handleDismiss }) {
+function ToastShelf() {
 
   // get our 'toast' state from the provider, useContext hook
   const { toasts } = React.useContext(ToastContext);
@@ -17,7 +17,6 @@ function ToastShelf({ handleDismiss }) {
             <Toast 
               id={toast.id}
               variant={toast.variant}
-              handleDismiss={handleDismiss}
             >
               {toast.message}
             </Toast>
