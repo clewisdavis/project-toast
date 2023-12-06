@@ -19,6 +19,28 @@ function ToastProvider({ children }) {
     }
   ]);
 
+  // Adding a useEffect to listen for the 'Escape' key to remove ALL the toasts from state
+  React.useEffect(() => {
+    console.log('toast shelf mounted');
+
+    // create the keyDown function
+    function handleKeyDown(event) {
+      if (event.code === 'Escape') {
+        console.log('keydown');
+        // reset all the toast, calling the state setter function and passing a new empty array
+        setToasts([]);
+      }
+    }
+
+    // create a listener on mount
+    window.addEventListener('keydown', handleKeyDown);
+
+    // cleanup
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   // Function to create the toasts
   function createToast(message, variant) {
     // create a new array, do not mutate the state
