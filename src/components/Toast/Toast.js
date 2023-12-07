@@ -36,7 +36,7 @@ function Toast({children, variant, id}) {
       </div>
       <p className={styles.content}>
         <VisuallyHidden>
-          {`${variant} - ${children}`}
+          {variant}
         </VisuallyHidden>  
         {children}
       </p>
