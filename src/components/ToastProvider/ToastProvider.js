@@ -1,5 +1,7 @@
 import React from 'react';
 
+import useEscapeKey from '../../hooks/use-escape-key';
+
 // Create the Context
 export const ToastContext = React.createContext();
 
@@ -20,29 +22,35 @@ function ToastProvider({ children }) {
   ]);
 
   // Adding a useEffect to listen for the 'Escape' key to remove ALL the toasts from state
-  React.useEffect(() => {
-    console.log('toast shelf mounted');
+  // React.useEffect(() => {
+  //   console.log('toast shelf mounted');
 
-    // create the keyDown function
-    function handleKeyDown(event) {
-      if (event.code === 'Escape') {
-        console.log('keydown');
-        // reset all the toast, calling the state setter function and passing a new empty array
-        setToasts([]);
-      }
-    }
+  //   // create the keyDown function
+  //   function handleKeyDown(event) {
+  //     if (event.code === 'Escape') {
+  //       console.log('keydown');
+  //       // reset all the toast, calling the state setter function and passing a new empty array
+  //       setToasts([]);
+  //     }
+  //   }
 
-    // create a listener on mount
-    window.addEventListener('keydown', handleKeyDown);
+  //   // create a listener on mount
+  //   window.addEventListener('keydown', handleKeyDown);
 
-    // cleanup
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  //   // cleanup
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
+
+    // use custom hook for escape key
+    useEscapeKey(() => {
+      setToasts([]);
+    });
 
   // Function to create the toasts
   function createToast(message, variant) {
+
     // create a new array, do not mutate the state
     const nextToast = [
       // copy the current toast
