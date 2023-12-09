@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useEscapeKey from '../../hooks/use-escape-key';
+import useKeydown from '../../hooks/use-keydown';
 
 // Create the Context
 export const ToastContext = React.createContext();
@@ -44,9 +44,20 @@ function ToastProvider({ children }) {
   // }, []);
 
     // use custom hook for escape key
-    useEscapeKey(() => {
+    // useKeydown(() => {
+    //   setToasts([]);
+    // });  
+
+
+    // use memoization hook
+    const handleEscape = React.useCallback(() => {
       setToasts([]);
-    });
+    }, []);
+    
+    // Now, you can pass the keydown you want, arrow, escape etc. 
+    useKeydown('Escape', handleEscape);
+    // useKeydown('LeftArrow', differentCallback);
+    // useKeydown('RightArrow', differentCallback);
 
   // Function to create the toasts
   function createToast(message, variant) {
